@@ -1,3 +1,5 @@
+import csv
+
 distances = []
 durations = []
 
@@ -38,3 +40,15 @@ if distances:
     print(f"Overall pace: {average_pace:.2f} min/km")
 else:
     print("No runs recorded.")
+
+if distances:
+    with open("runs.csv", "a", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+
+        if file.tell() == 0:
+            writer.writerow(["runner", "distance_km", "duration_minutes"])
+
+        for distance, duration in zip(distances, durations):
+            writer.writerow([runner_name, distance, duration])
+
+    print("Runs saved to runs.csv")
