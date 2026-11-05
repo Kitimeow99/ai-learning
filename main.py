@@ -1,5 +1,7 @@
 import csv
 
+from utils import format_pace
+
 distances = []
 durations = []
 
@@ -23,7 +25,7 @@ while True:
         durations.append(duration_minutes)
 
         pace = duration_minutes / distance_km
-        print(f"Run added. Pace: {pace:.2f} min/km")
+        print(f"Run added. Pace: {format_pace(pace)}")
 
     except ValueError:
         print("Please enter valid numbers.")
@@ -37,7 +39,7 @@ if distances:
     print(f"Runs recorded: {len(distances)}")
     print(f"Total distance: {total_distance:.2f} km")
     print(f"Total duration: {total_duration:.2f} minutes")
-    print(f"Overall pace: {average_pace:.2f} min/km")
+    print(f"Overall pace: {format_pace(average_pace)}")
 else:
     print("No runs recorded.")
 

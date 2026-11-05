@@ -1,5 +1,7 @@
 import csv
 
+from utils import format_pace
+
 totals = {}
 
 try:
@@ -32,7 +34,7 @@ try:
         print(f"Runs: {stats['runs']}")
         print(f"Total distance: {stats['distance']:.2f} km")
         print(f"Total duration: {stats['duration']:.2f} minutes")
-        print(f"Overall pace: {pace:.2f} min/km")
+        print(f"Overall pace: {format_pace(pace)}")
 
 except FileNotFoundError:
     print("No runs.csv found. Run main.py and save a run first.")
