@@ -1,28 +1,11 @@
 import csv
+from utils import format_pace, summarize_runs
 
-from utils import format_pace
-
-totals = {}
 
 try:
     with open("runs.csv", "r", newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
-
-        for row in reader:
-            name = row["runner"]
-            distance = float(row["distance_km"])
-            duration = float(row["duration_minutes"])
-
-            if name not in totals:
-                totals[name] = {
-                    "runs": 0,
-                    "distance": 0.0,
-                    "duration": 0.0
-                }
-
-            totals[name]["runs"] += 1
-            totals[name]["distance"] += distance
-            totals[name]["duration"] += duration
+        totals = summarize_runs(reader)
 
     if not totals:
         print("No saved runs found.")
