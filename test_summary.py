@@ -22,7 +22,8 @@ class TestSummary(unittest.TestCase):
             }
         ]
 
-        totals = summarize_runs(rows)
+        totals, skipped = summarize_runs(rows)
+        self.assertEqual(skipped, 0)
 
         self.assertEqual(totals["Danial"]["runs"], 2)
         self.assertEqual(totals["Danial"]["distance"], 10.0)
@@ -32,9 +33,34 @@ class TestSummary(unittest.TestCase):
         self.assertEqual(totals["Ali"]["distance"], 2.0)
         self.assertEqual(totals["Ali"]["duration"], 14.0)
 
-    def test_empty_input(self):
-        self.assertEqual(summarize_runs([]), {})
+        def test_empty_input(self):
+            self.assertEqual(summarize_runs([]), ({}, 0))
 
+    def test_skips_invalid_rows(self):
+        rows = [
+            {
+                "runner": "Danial",
+                "distance_km": "5",
+                "duration_minutes": "30"
+            },
+            {
+                "runner": "Ali",
+                "distance_km": "hello",
+                "duration_minutes": "14"
+            },
+            {
+                "runner": "Danial",
+                "distance_km": "0",
+                "duration_minutes": "10"
+            }
+        ]
 
+        totals, skipped = summarize_runs(rows)
+
+        self.assertEqual(skipped, 2)
+        self.assertEqual(len(totals), 1)
+        self.assertEqual(totals["Danial"]["runs"], 1)
+        self.assertEqual(totals["Danial"]["distance"], 5.0)
+        self.assertEqual(totals["Danial"]["duration"], 30.0)
 if __name__ == "__main__":
     unittest.main()

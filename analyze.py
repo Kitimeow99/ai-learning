@@ -5,7 +5,9 @@ from utils import format_pace, summarize_runs
 try:
     with open("runs.csv", "r", newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
-        totals = summarize_runs(reader)
+        totals, skipped = summarize_runs(reader)
+
+    print(f"Invalid records skipped: {skipped}")
 
     if not totals:
         print("No saved runs found.")
